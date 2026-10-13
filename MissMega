@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Adventure: Mastering Simple Present Tense - SMPN 11 Senayang</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 50%, #fef9c3 100%);
+            min-height: 100vh;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .animate-bounce-short {
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-5%); animation-timing-function: cubic-bezier(0.8,0,1,1); }
+            50% { transform: none; animation-timing-function: cubic-bezier(0,0,0.2,1); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen">
+
+    <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/20 p-2 rounded-xl">
+                    <i class="fa-solid fa-graduation-cap text-2xl text-yellow-300"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">SMPN 11 SENAYANG</h1>
+                    <p class="text-xs text-indigo-200">English Interactive Learning • Phase D</p>
+                </div>
+            </div>
+            <div id="userInfoHeader" class="hidden items-center space-x-4 mt-2 sm:mt-0 text-sm">
+                <span class="bg-indigo-700/60 px-3 py-1 rounded-full border border-indigo-400/30">
+                    <i class="fa-solid fa-user mr-1 text-yellow-300"></i> <span id="displayName">Siswa</span> (<span id="displayClass">VIII</span>)
+                </span>
+                <button onclick="resetUserSession()" class="text-indigo-200 hover:text-white text-xs underline">Ganti Akun</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto p-4 sm:p-6 my-auto">
+
+        <!-- VIEW 1: LOGIN / WELCOME SCREEN -->
+        <section id="viewLogin" class="bg-white rounded-3xl card-shadow p-6 sm:p-10 border border-indigo-50">
+            <div class="text-center max-w-lg mx-auto">
+                <div class="inline-block bg-indigo-50 text-indigo-600 p-4 rounded-3xl mb-4 text-3xl">
+                    🌴📚✨
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-indigo-900 mb-2">English Adventure</h2>
+                <p class="text-indigo-600 font-semibold mb-1">Mastering Simple Present Tense</p>
+                <p class="text-xs text-slate-500 mb-6 bg-slate-50 py-2 px-4 rounded-xl inline-block border">Guru Pengampu: Mega Rahmawati, S.Pd., Gr.</p>
+
+                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs text-amber-800 text-left mb-6">
+                    <i class="fa-solid fa-circle-info mr-1"></i> Selamat datang di media pembelajaran interaktif pesisir. Masukkan nama dan kelasmu untuk memulai petualangan belajar!
+                </div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4 text-left">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Lengkap Siswa</label>
+                        <input type="text" id="inputName" required placeholder="Contoh: Ahmad Rizki" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Kelas</label>
+                            <select id="inputClass" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm bg-white">
+                                <option value="VIII A">VIII A</option>
+                                <option value="VIII B">VIII B</option>
+                                <option value="VIII C">VIII C</option>
+                                <option value="VIII D">VIII D</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Nomor Absen</label>
+                            <input type="number" id="inputAbsen" required placeholder="No. Absen" min="1" max="50" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center space-x-2">
+                        <span>MULAI BELAJAR SEKARANG</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- VIEW 2: DASHBOARD -->
+        <section id="viewDashboard" class="hidden space-y-6">
+            <div class="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute right-[-20px] bottom-[-20px] text-white/10 text-9xl font-extrabold pointer-events-none">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <div class="relative z-10">
+                    <span class="bg-white/20 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Dashboard Siswa</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">Hello, <span id="welcomeName">Siswa</span>! 👋</h2>
+                    <p class="text-indigo-100 text-sm mt-1">Siap menguasai Simple Present Tense hari ini? Pilih menu belajar di bawah ini.</p>
+                    
+                    <div class="mt-4 bg-black/10 rounded-2xl p-4 backdrop-blur-sm">
+                        <div class="flex justify-between items-center text-xs mb-1 font-semibold">
+                            <span>Progress Belajar & Aktivitas</span>
+                            <span id="progressText">0% Selesai</span>
+                        </div>
+                        <div class="w-full bg-black/20 rounded-full h-2.5 overflow-hidden">
+                            <div id="progressBar" class="bg-yellow-300 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Apersepsi -->
+                <button onclick="switchView('viewApersepsi')" class="bg-white p-5 rounded-2xl card-shadow border border-slate-100 hover:border-indigo-300 transition text-left group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-base">1. Let's Explore</h3>
+                        <p class="text-xs text-slate-500 mt-1">Pertanyaan pemantik seputar aktivitas sehari-hari.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Mulai <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
+                </button>
+
+                <!-- Learn Material -->
+                <button onclick="switchView('viewMaterial')" class="bg-white p-5 rounded-2xl card-shadow border border-slate-100 hover:border-indigo-300 transition text-left group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-base">2. Learn Material</h3>
+                        <p class="text-xs text-slate-500 mt-1">Konsep, rumus, verbal, nominal, & adverbs.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Pelajari <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
+                </button>
+
+                <!-- Grammar Practice -->
+                <button onclick="switchView('viewPractice')" class="bg-white p-5 rounded-2xl card-shadow border border-slate-100 hover:border-indigo-300 transition text-left group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-dumbbell"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-base">3. Grammar Practice</h3>
+                        <p class="text-xs text-slate-500 mt-1">Latihan bertahap level Easy, Medium, Challenge.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Latih <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
+                </button>
+
+                <!-- Mini Games -->
+                <button onclick="switchView('viewGames')" class="bg-white p-5 rounded-2xl card-shadow border border-slate-100 hover:border-indigo-300 transition text-left group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-violet-100 text-violet-600 rounded-2xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-base">4. Mini Games</h3>
+                        <p class="text-xs text-slate-500 mt-1">Detective Grammar & Sentence Builder quest.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Mainkan <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
+                </button>
+
+                <!-- Final Quiz -->
+                <button onclick="switchView('viewQuiz')" class="bg-white p-5 rounded-2xl card-shadow border border-slate-100 hover:border-indigo-300 transition text-left group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-base">5. Final Quiz</h3>
+                        <p class="text-xs text-slate-500 mt-1">Evaluasi 20 soal dengan rekap nilai otomatis.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Uji Kemampuan <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i></span>
+                </button>
+
+                <!-- Google Docs Resources -->
+                <button onclick="openExternalResources()" class="bg-white p-5 rounded-2xl card-shadow border border-slate-100 hover:border-indigo-300 transition text-left group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-cyan-100 text-cyan-600 rounded-2xl flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-base">6. LKPD & Docs</h3>
+                        <p class="text-xs text-slate-500 mt-1">Akses bahan ajar dan lembar kerja Google Docs.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Buka Dokumen <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- VIEW 3: APERSEPSI -->
+        <section id="viewApersepsi" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl card-shadow p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="switchView('viewDashboard')" class="text-indigo-600 font-semibold text-sm flex items-center hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Dashboard
+                    </button>
+                    <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Apersepsi & Pemantik</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Let's Explore Your Daily Routine!</h3>
+                <p class="text-slate-600 text-sm mb-6">Jawab pertanyaan pemantik berikut untuk mulai memahami konteks Simple Present Tense dalam kehidupan sehari-hari siswa di Senayang.</p>
+
+                <div class="space-y-6">
+                    <div class="bg-slate-50 p-4 rounded-2xl border">
+                        <label class="block font-semibold text-sm text-slate-700 mb-2">1. What do you do every morning before going to school?</label>
+                        <input type="text" id="aper1" placeholder="Contoh: I take a bath and help my mother." class="w-full p-3 rounded-xl border text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border">
+                        <label class="block font-semibold text-sm text-slate-700 mb-2">2. What time do you usually go to school?</label>
+                        <input type="text" id="aper2" placeholder="Contoh: I go to school at half past six." class="w-full p-3 rounded-xl border text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border">
+                        <label class="block font-semibold text-sm text-slate-700 mb-2">3. Do you study English every day?</label>
+                        <div class="flex space-x-4 mt-2">
+                            <label class="flex items-center space-x-2 text-sm cursor-pointer"><input type="radio" name="aper3" value="Yes"> <span>Yes, I do.</span></label>
+                            <label class="flex items-center space-x-2 text-sm cursor-pointer"><input type="radio" name="aper3" value="No"> <span>No, I don't.</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <button onclick="submitApersepsi()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl text-sm shadow transition">
+                        Kirim Jawaban & Lanjut <i class="fa-solid fa-check ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 4: LEARN MATERIAL -->
+        <section id="viewMaterial" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl card-shadow p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="switchView('viewDashboard')" class="text-indigo-600 font-semibold text-sm flex items-center hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Dashboard
+                    </button>
+                    <span class="text-xs font-bold bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Materi Pembelajaran</span>
+                </div>
+
+                <!-- Material Tabs -->
+                <div class="flex flex-wrap gap-2 mb-6 border-b pb-3">
+                    <button onclick="showMatTab('def')" id="btnMatDef" class="mat-tab px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white">1. Fungsi & Definisi</button>
+                    <button onclick="showMatTab('verbal')" id="btnMatVerbal" class="mat-tab px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700">2. Kalimat Verbal</button>
+                    <button onclick="showMatTab('nominal')" id="btnMatNominal" class="mat-tab px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700">3. Kalimat Nominal</button>
+                    <button onclick="showMatTab('third')" id="btnMatThird" class="mat-tab px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700">4. Aturan -s/-es</button>
+                    <button onclick="showMatTab('adverb')" id="btnMatAdverb" class="mat-tab px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700">5. Adverbs of Frequency</button>
+                </div>
+
+                <!-- Content Panels -->
+                <div id="matContent" class="space-y-4 text-sm text-slate-700 leading-relaxed">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <div class="mt-6 flex justify-between items-center pt-4 border-t">
+                    <button onclick="changeMatTab(-1)" class="px-4 py-2 bg-slate-100 rounded-xl font-semibold text-xs text-slate-700 hover:bg-slate-200">Sebelumnya</button>
+                    <button onclick="changeMatTab(1)" class="px-4 py-2 bg-indigo-600 rounded-xl font-semibold text-xs text-white hover:bg-indigo-700">Selanjutnya</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 5: GRAMMAR PRACTICE -->
+        <section id="viewPractice" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl card-shadow p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="switchView('viewDashboard')" class="text-indigo-600 font-semibold text-sm flex items-center hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Dashboard
+                    </button>
+                    <span id="practiceLevelBadge" class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Level 1: Easy</span>
+                </div>
+
+                <div id="practiceContainer">
+                    <!-- Dynamic Practice Question -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 6: MINI GAMES -->
+        <section id="viewGames" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl card-shadow p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="switchView('viewDashboard')" class="text-indigo-600 font-semibold text-sm flex items-center hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Dashboard
+                    </button>
+                    <span class="text-xs font-bold bg-violet-100 text-violet-800 px-3 py-1 rounded-full">Simple Present Quest 🎮</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <button onclick="startMiniGame(1)" class="p-4 bg-violet-50 border border-violet-200 hover:bg-violet-100 rounded-2xl text-left transition">
+                        <div class="font-bold text-violet-900 text-base mb-1"><i class="fa-solid fa-magnifying-glass mr-2"></i> Game 1: Grammar Detective</div>
+                        <p class="text-xs text-slate-600">Temukan dan perbaiki kesalahan tata bahasa dalam kalimat sehari-hari.</p>
+                    </button>
+                    <button onclick="startMiniGame(2)" class="p-4 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 rounded-2xl text-left transition">
+                        <div class="font-bold text-emerald-900 text-base mb-1"><i class="fa-solid fa-puzzle-piece mr-2"></i> Game 2: Sentence Builder</div>
+                        <p class="text-xs text-slate-600">Susun kata-kata acak menjadi kalimat Simple Present yang benar.</p>
+                    </button>
+                </div>
+
+                <div id="gamePlayContainer" class="hidden bg-slate-50 p-6 rounded-2xl border">
+                    <!-- Mini game active content -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 7: FINAL QUIZ & EVALUATION -->
+        <section id="viewQuiz" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl card-shadow p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="switchView('viewDashboard')" class="text-indigo-600 font-semibold text-sm flex items-center hover:underline">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Dashboard
+                    </button>
+                    <span id="quizCounter" class="text-xs font-bold bg-rose-100 text-rose-800 px-3 py-1 rounded-full">Soal 1 dari 20</span>
+                </div>
+
+                <div id="quizContainer">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 8: REFLECTION & RESULTS -->
+        <section id="viewResult" class="hidden space-y-4">
+            <div class="bg-white rounded-3xl card-shadow p-6 text-center">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+                    🎉
+                </div>
+                <h3 class="text-2xl font-extrabold text-slate-800 mb-1">Evaluasi Selesai!</h3>
+                <p class="text-xs text-slate-500 mb-6" id="resultStudentMeta">Nama Siswa • Kelas</p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-slate-50 p-4 rounded-2xl border">
+                        <span class="text-xs text-slate-500 block">Benar</span>
+                        <span id="resCorrect" class="text-2xl font-bold text-emerald-600">0</span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border">
+                        <span class="text-xs text-slate-500 block">Salah</span>
+                        <span id="resIncorrect" class="text-2xl font-bold text-rose-600">0</span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border">
+                        <span class="text-xs text-slate-500 block">Nilai Akhir</span>
+                        <span id="resScore" class="text-2xl font-bold text-indigo-600">0</span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border">
+                        <span class="text-xs text-slate-500 block">Kategori</span>
+                        <span id="resCategory" class="text-sm font-bold text-amber-600">-</span>
+                    </div>
+                </div>
+
+                <!-- Reflection Form -->
+                <div class="bg-indigo-50 border border-indigo-100 p-6 rounded-2xl text-left mb-6">
+                    <h4 class="font-bold text-indigo-900 mb-3 text-sm"><i class="fa-solid fa-seedling mr-1"></i> Refleksi Pembelajaran Siswa</h4>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">1. Bagian materi mana yang paling mudah kamu pahami?</label>
+                            <input type="text" id="ref1" class="w-full p-2.5 rounded-xl border text-xs bg-white" placeholder="Tuliskan di sini...">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">2. Bagian mana yang masih membuatmu bingung?</label>
+                            <input type="text" id="ref2" class="w-full p-2.5 rounded-xl border text-xs bg-white" placeholder="Tuliskan di sini...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="submitFinalResultToCloud()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl text-sm shadow transition flex items-center space-x-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Kirim Nilai ke Google Sheets</span>
+                    </button>
+                    <button onclick="switchView('viewDashboard')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-xl text-sm transition">
+                        Kembali ke Dashboard
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-100 border-t py-4 text-center text-xs text-slate-500 mt-auto">
+        <p>SMP Negeri 11 Senayang • Media Pembelajaran Interaktif Simple Present Tense</p>
+        <p class="mt-1">Guru Pengampu: Mega Rahmawati, S.Pd., Gr. | Kurikulum Merdeka Fase D</p>
+    </footer>
+
+    <script>
+        const APP_CONFIG = {
+            schoolName: "SMP Negeri 11 Senayang",
+            teacherName: "Mega Rahmawati, S.Pd., Gr.",
+            subject: "Bahasa Inggris",
+            grade: "VIII",
+            topic: "Simple Present Tense",
+            googleAppsScriptUrl: "", // Guru dapat mengisi URL Apps Script Web App di sini
+            googleDocsUrl: "https://docs.google.com/document/d/example/edit", // Contoh tautan Google Docs Bahan Ajar
+            worksheetUrl: "https://docs.google.com/document/d/example-lkpd/edit" // Contoh tautan LKPD
+        };
+
+        let currentUser = {
+            name: "",
+            className: "VIII A",
+            absen: ""
+        };
+
+        let appProgress = {
+            apersepsiDone: false,
+            materialRead: false,
+            practiceDone: false,
+            gameDone: false,
+            quizDone: false
+        };
+
+        let currentMatIndex = 0;
+        const materialTabsList = ['def', 'verbal', 'nominal', 'third', 'adverb'];
+        
+        let practiceIndex = 0;
+        let practiceLevel = 'easy'; // easy, medium, challenge
+        let practiceScore = 0;
+
+        let quizCurrentIndex = 0;
+        let quizAnswers = [];
+        let quizQuestionsData = [];
+
+        // 20 soal evaluasi akhir sesuai pedoman
+        const fullQuizQuestions = [
+            { q: "Simple Present Tense is used to express...", options: ["A. Past events", "B. Habits and general truths", "C. Future plans", "D. Ongoing actions now"], ans: 1 },
+            { q: "She _____ to school every morning.", options: ["A. go", "B. goes", "C. going", "D. gone"], ans: 1 },
+            { q: "They _____ football in the school field on Friday.", options: ["A. plays", "B. play", "C. playing", "D. played"], ans: 1 },
+            { q: "My father _____ fish in the sea every weekend.", options: ["A. catch", "B. catches", "C. catching", "D. catched"], ans: 1 },
+            { q: "We _____ English twice a week.", options: ["A. studies", "B. study", "C. studying", "D. studied"], ans: 1 },
+            { q: "Choose the correct negative sentence: 'He plays badminton.'", options: ["A. He don't play badminton.", "B. He doesn't plays badminton.", "C. He doesn't play badminton.", "D. He not play badminton."], ans: 2 },
+            { q: "_____ your sister like reading books?", options: ["A. Do", "B. Does", "C. Is", "D. Are"], ans: 1 },
+            { q: "Do you help your mother after school?", options: ["A. Yes, I do.", "B. Yes, I does.", "C. Yes, I am.", "D. Yes, I can."], ans: 0 },
+            { q: "The sun _____ in the east.", options: ["A. rise", "B. rises", "C. rising", "D. rose"], ans: 1 },
+            { q: "Students _____ late to school.", options: ["A. never come", "B. comes never", "C. is never come", "D. never comes"], ans: 0 },
+            { q: "I _____ a student of SMP Negeri 11 Senayang.", options: ["A. is", "B. am", "C. are", "D. be"], ans: 1 },
+            { q: "She _____ happy when studying English.", options: ["A. am", "B. are", "C. is", "D. be"], ans: 2 },
+            { q: "They _____ diligent and smart students.", options: ["A. am", "B. is", "C. are", "D. be"], ans: 2 },
+            { q: "Choose the correct negative nominal sentence:", options: ["A. I am not tired.", "B. I am no tired.", "C. I not am tired.", "D. I don't am tired."], ans: 0 },
+            { q: "_____ you ready for the English test?", options: ["A. Am", "B. Is", "C. Are", "D. Do"], ans: 2 },
+            { q: "Which verb suffix is correct for 'study' with subject 'he'?", options: ["A. studys", "B. studies", "C. studyes", "D. study"], ans: 1 },
+            { q: "My mother _____ delicious rice in the kitchen.", options: ["A. cook", "B. cooks", "C. cooking", "D. cooked"], ans: 1 },
+            { q: "Adverb of frequency 'always' means...", options: ["A. 100% of the time", "B. 50% of the time", "C. 10% of the time", "D. 0% of the time"], ans: 0 },
+            { q: "Find the correct word order: 'every day / English / studies / Rina'", options: ["A. Rina studies English every day.", "B. Every day Rina studies English.", "C. Studies Rina English every day.", "D. Both A and B are correct"], ans: 3 },
+            { q: "Why do we use Simple Present Tense for island/coastal community context?", options: ["A. To describe daily routines like fishing and going to school", "B. To describe dinosaur history", "C. To talk about weather tomorrow", "D. To tell fairy tales"], ans: 0 }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadLocalSession();
+        });
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const name = document.getElementById('inputName').value.trim();
+            const className = document.getElementById('inputClass').value;
+            const absen = document.getElementById('inputAbsen').value.trim();
+
+            if (!name || !absen) {
+                showCustomModal("Mohon isi nama lengkap dan nomor absen dengan benar.");
+                return;
+            }
+
+            currentUser = { name, className, absen };
+            localStorage.setItem('smp11_eng_user', JSON.stringify(currentUser));
+
+            document.getElementById('displayName').innerText = name;
+            document.getElementById('displayClass').innerText = className;
+            document.getElementById('userInfoHeader').classList.remove('hidden');
+            document.getElementById('userInfoHeader').classList.add('flex');
+
+            switchView('viewDashboard');
+            updateProgressUI();
+        }
+
+        function loadLocalSession() {
+            const savedUser = localStorage.getItem('smp11_eng_user');
+            const savedProgress = localStorage.getItem('smp11_eng_progress');
+
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                document.getElementById('displayName').innerText = currentUser.name;
+                document.getElementById('displayClass').innerText = currentUser.className;
+                document.getElementById('userInfoHeader').classList.remove('hidden');
+                document.getElementById('userInfoHeader').classList.add('flex');
+                switchView('viewDashboard');
+            }
+
+            if (savedProgress) {
+                appProgress = JSON.parse(savedProgress);
+                updateProgressUI();
+            }
+        }
+
+        function resetUserSession() {
+            localStorage.removeItem('smp11_eng_user');
+            localStorage.removeItem('smp11_eng_progress');
+            currentUser = { name: "", className: "VIII A", absen: "" };
+            document.getElementById('userInfoHeader').classList.remove('flex');
+            document.getElementById('userInfoHeader').classList.add('hidden');
+            switchView('viewLogin');
+        }
+
+        function switchView(viewId) {
+            const views = ['viewLogin', 'viewDashboard', 'viewApersepsi', 'viewMaterial', 'viewPractice', 'viewGames', 'viewQuiz', 'viewResult'];
+            views.forEach(v => {
+                document.getElementById(v).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (viewId === 'viewMaterial') {
+                showMatTab('def');
+            } else if (viewId === 'viewPractice') {
+                initPractice('easy');
+            } else if (viewId === 'viewQuiz') {
+                initQuiz();
+            }
+        }
+
+        function updateProgressUI() {
+            let score = 0;
+            if (appProgress.apersepsiDone) score += 20;
+            if (appProgress.materialRead) score += 20;
+            if (appProgress.practiceDone) score += 20;
+            if (appProgress.gameDone) score += 20;
+            if (appProgress.quizDone) score += 20;
+
+            document.getElementById('progressText').innerText = score + '% Selesai';
+            document.getElementById('progressBar').style.width = score + '%';
+            localStorage.setItem('smp11_eng_progress', JSON.stringify(appProgress));
+        }
+
+        function submitApersepsi() {
+            const aper1 = document.getElementById('aper1').value.trim();
+            const aper2 = document.getElementById('aper2').value.trim();
+            if (!aper1 || !aper2) {
+                showCustomModal("Silakan lengkapi jawaban apersepsi terlebih dahulu.");
+                return;
+            }
+            appProgress.apersepsiDone = true;
+            updateProgressUI();
+            showCustomModal("Hebat! Jawaban apersepsimu tercatat. Mari lanjutkan ke materi.");
+            switchView('viewDashboard');
+        }
+
+        const materialData = {
+            def: `
+                <h4 class="font-bold text-indigo-900 text-lg mb-2">1. Definition & Function of Simple Present Tense</h4>
+                <p>Simple Present Tense adalah bentuk kata kerja (tenses) yang digunakan untuk menyatakan <strong>kebiasaan (habits), rutinitas, fakta umum (general facts), kebenaran umum (universal truths), atau jadwal yang tetap</strong>.</p>
+                <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100 my-3">
+                    <p class="font-semibold text-indigo-900 mb-1">Contoh dalam Kehidupan Sehari-hari (Konteks Pesisir & Sekolah):</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate-700">
+                        <li><strong>I go to school every morning.</strong> (Saya pergi ke sekolah setiap pagi)</li>
+                        <li><strong>My father goes fishing on the weekend.</strong> (Ayah saya pergi memancing di akhir pekan)</li>
+                        <li><strong>The sun rises in the east.</strong> (Matahari terbit di timur - Fakta umum)</li>
+                        <li><strong>We live near the sea.</strong> (Kami tinggal dekat laut)</li>
+                    </ul>
+                </div>
+            `,
+            verbal: `
+                <h4 class="font-bold text-indigo-900 text-lg mb-2">2. Verbal Sentences (Kalimat Verbal)</h4>
+                <p>Kalimat verbal adalah kalimat yang menggunakan kata kerja utama (verb) untuk menyatakan aksi atau tindakan.</p>
+                <div class="space-y-3 mt-3">
+                    <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+                        <span class="font-bold text-emerald-900">(+) Positive:</span> Subject + Verb 1 (-s/-es) + Object/Complement<br>
+                        <em>Example: She studies English. / They play football.</em>
+                    </div>
+                    <div class="bg-rose-50 p-3 rounded-xl border border-rose-200">
+                        <span class="font-bold text-rose-900">(-) Negative:</span> Subject + do/does + not + Verb 1 + Complement<br>
+                        <em>Example: She <strong>doesn't study</strong> English. / They <strong>don't play</strong> football.</em>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded-xl border border-blue-200">
+                        <span class="font-bold text-blue-900">(?) Interrogative:</span> Do/Does + Subject + Verb 1 + Complement?<br>
+                        <em>Example: <strong>Does</strong> she <strong>study</strong> English? / <strong>Do</strong> they <strong>play</strong> football?</em>
+                    </div>
+                </div>
+                <p class="text-xs text-amber-700 bg-amber-50 p-3 rounded-xl mt-3 border border-amber-200">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>Catatan Penting:</strong> Setelah kata <strong>does</strong> atau <strong>doesn't</strong>, kata kerja utama kembali ke bentuk dasar (Verb 1 tanpa -s/-es). Contoh benar: <em>Does she play?</em> (Bukan: <em>Does she plays?</em>).
+                </p>
+            `,
+            nominal: `
+                <h4 class="font-bold text-indigo-900 text-lg mb-2">3. Nominal Sentences (Kalimat Nominal)</h4>
+                <p>Kalimat nominal adalah kalimat yang tidak menggunakan kata kerja utama, melainkan menggunakan kata penghubung to be (<strong>am, is, are</strong>) yang diikuti oleh kata sifat (adjective), kata benda (noun), atau keterangan (adverb).</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-3">
+                    <div class="bg-slate-50 p-3 rounded-xl border text-center"><strong>I</strong> ➔ am / am not</div>
+                    <div class="bg-slate-50 p-3 rounded-xl border text-center"><strong>He, She, It, Nama</strong> ➔ is / is not (isn't)</div>
+                    <div class="bg-slate-50 p-3 rounded-xl border text-center"><strong>You, We, They</strong> ➔ are / are not (aren't)</div>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-2xl border text-xs space-y-1">
+                    <p><strong>(+)</strong> She is a diligent student.</p>
+                    <p><strong>(-)</strong> She is not (isn't) lazy.</p>
+                    <p><strong>(?)</strong> Is she a diligent student?</p>
+                </div>
+            `,
+            third: `
+                <h4 class="font-bold text-indigo-900 text-lg mb-2">4. Third-Person Singular Rules (-s / -es)</h4>
+                <p>Untuk subjek orang ketiga tunggal (<strong>He, She, It, My father, Rina</strong>) dalam kalimat positif (+), kata kerja wajib diberi tambahan <strong>-s</strong> atau <strong>-es</strong>.</p>
+                <ul class="list-disc list-inside space-y-2 mt-2 bg-slate-50 p-4 rounded-2xl border text-xs">
+                    <li>Sebagian besar verb ditambah <strong>-s</strong>: <em>play ➔ plays, read ➔ reads</em></li>
+                    <li>Verb berakhiran -ch, -sh, -s, -x, -o ditambah <strong>-es</strong>: <em>go ➔ goes, watch ➔ watches</em></li>
+                    <li>Verb berakhiran konsonan + y diubah menjadi <strong>-ies</strong>: <em>study ➔ studies, carry ➔ carries</em></li>
+                    <li>Verb berakhiran vokal + y tetap ditambah <strong>-s</strong>: <em>buy ➔ buys, play ➔ plays</em></li>
+                    <li>Irregular: <em>have ➔ has</em></li>
+                </ul>
+            `,
+            adverb: `
+                <h4 class="font-bold text-indigo-900 text-lg mb-2">5. Adverbs of Frequency</h4>
+                <p>Digunakan untuk menyatakan seberapa sering suatu kegiatan dilakukan.</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 my-3 text-xs">
+                    <div class="bg-emerald-50 p-2.5 rounded-xl border"><strong>Always</strong> (Selalu - 100%)</div>
+                    <div class="bg-blue-50 p-2.5 rounded-xl border"><strong>Usually</strong> (Biasanya - 80%)</div>
+                    <div class="bg-indigo-50 p-2.5 rounded-xl border"><strong>Often</strong> (Sering - 60%)</div>
+                    <div class="bg-amber-50 p-2.5 rounded-xl border"><strong>Sometimes</strong> (Kadang - 40%)</div>
+                    <div class="bg-orange-50 p-2.5 rounded-xl border"><strong>Rarely</strong> (Jarang - 20%)</div>
+                    <div class="bg-rose-50 p-2.5 rounded-xl border"><strong>Never</strong> (Tidak pernah - 0%)</div>
+                </div>
+                <p class="text-xs text-slate-600"><strong>Posisi dalam kalimat:</strong> Sebelum kata kerja utama, atau setelah to be (am/is/are).<br><em>Example: She <strong>always</strong> studies at night. / He <strong>is always</strong> happy.</em></p>
+            `
+        };
+
+        function showMatTab(tabKey) {
+            document.querySelectorAll('.mat-tab').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            const activeBtn = document.getElementById('btnMat' + tabKey.charAt(0).toUpperCase() + tabKey.slice(1));
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-100', 'text-slate-700');
+                activeBtn.classList.add('bg-indigo-600', 'text-white');
+            }
+            document.getElementById('matContent').innerHTML = materialData[tabKey];
+            
+            currentMatIndex = materialTabsList.indexOf(tabKey);
+            appProgress.materialRead = true;
+            updateProgressUI();
+        }
+
+        function changeMatTab(direction) {
+            currentMatIndex += direction;
+            if (currentMatIndex < 0) currentMatIndex = 0;
+            if (currentMatIndex >= materialTabsList.length) currentMatIndex = materialTabsList.length - 1;
+            showMatTab(materialTabsList[currentMatIndex]);
+        }
+
+        const practiceData = {
+            easy: [
+                { q: "She _____ to school every morning.", options: ["go", "goes", "going", "gone"], ans: 1, expl: "Subjek 'She' adalah orang ketiga tunggal, maka verb ditambah -es (goes)." },
+                { q: "They _____ football every Friday afternoon.", options: ["plays", "play", "playing", "played"], ans: 1, plural: true, expl: "Subjek 'They' menggunakan Verb 1 dasar (play)." },
+                { q: "My mother _____ delicious fish soup in the kitchen.", options: ["cook", "cooks", "cooking", "cooked"], ans: 1, expl: "Subjek 'My mother' (She) menggunakan -s (cooks)." }
+            ],
+            medium: [
+                { q: "Choose the correct negative sentence for: 'He plays badminton.'", options: ["He don't play badminton.", "He doesn't plays badminton.", "He doesn't play badminton.", "He not play badminton."], ans: 2, expl: "Negative untuk he/she/it menggunakan 'doesn't' + Verb 1 dasar." },
+                { q: "_____ your brother like fishing in the sea?", options: ["Do", "Does", "Is", "Are"], ans: 1, expl: "Subjek 'your brother' tunggal, menggunakan auxiliary 'Does'." },
+                { q: "We _____ not late for school.", options: ["am", "is", "are", "do"], ans: 2, expl: "Subjek 'We' dalam kalimat nominal menggunakan 'are'." }
+            ],
+            challenge: [
+                { q: "Find the mistake in this sentence: 'She go to school every morning.'", options: ["Change 'go' to 'goes'", "Change 'to' to 'at'", "Change 'school' to 'home'", "No mistake"], ans: 0, expl: "Subjek 'She' memerlukan verb 'goes'." },
+                { q: "Arrange into correct sentence: 'every day / English / studies / Rina'", options: ["Rina studies English every day.", "Rina study English every day.", "Every day studies Rina English.", "English studies Rina every day."], ans: 0, expl: "Subject (Rina) + Verb (-s) + Object + Adverb." }
+            ]
+        };
+
+        function initPractice(level) {
+            practiceLevel = level;
+            practiceIndex = 0;
+            renderPracticeQuestion();
+        }
+
+        function renderPracticeQuestion() {
+            const list = practiceData[practiceLevel];
+            const container = document.getElementById('practiceContainer');
+            const badge = document.getElementById('practiceLevelBadge');
+            
+            badge.innerText = `Level: ${practiceLevel.toUpperCase()} (${practiceIndex + 1}/${list.length})`;
+
+            if (practiceIndex >= list.length) {
+                appProgress.practiceDone = true;
+                updateProgressUI();
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="text-4xl mb-2">🌟</div>
+                        <h4 class="font-bold text-lg text-slate-800">Latihan Level ${practiceLevel.toUpperCase()} Selesai!</h4>
+                        <p class="text-xs text-slate-500 mb-4">Kamu telah menyelesaikan latihan dengan baik.</p>
+                        <div class="flex justify-center space-x-3">
+                            <button onclick="initPractice('${practiceLevel}')" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold">Ulangi Latihan</button>
+                            <button onclick="switchView('viewDashboard')" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold">Kembali ke Dashboard</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const item = list[practiceIndex];
+            let html = `
+                <div class="space-y-4">
+                    <div class="bg-slate-50 p-4 rounded-2xl border font-semibold text-slate-800 text-sm">
+                        ${practiceIndex + 1}. ${item.q}
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            `;
+
+            item.options.forEach((opt, idx) => {
+                html += `<button onclick="checkPracticeAnswer(${idx}, ${item.ans}, '${item.expl.replace(/'/g, "\\'")}')" class="p-3 bg-white border hover:border-indigo-500 hover:bg-indigo-50 rounded-xl text-left text-xs font-medium transition opt-btn">${opt}</button>`;
+            });
+
+            html += `</div><div id="practiceFeedback" class="hidden mt-4 p-4 rounded-xl text-xs"></div></div>`;
+            container.innerHTML = html;
+        }
+
+        function checkPracticeAnswer(selected, correct, explanation) {
+            const feedback = document.getElementById('practiceFeedback');
+            feedback.classList.remove('hidden');
+            if (selected === correct) {
+                feedback.className = "mt-4 p-4 rounded-xl text-xs bg-emerald-50 border border-emerald-200 text-emerald-900";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> <strong>Benar!</strong> ${explanation}`;
+            } else {
+                feedback.className = "mt-4 p-4 rounded-xl text-xs bg-rose-50 border border-rose-200 text-rose-900";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 mr-1"></i> <strong>Kurang tepat.</strong> ${explanation}`;
+            }
+
+            setTimeout(() => {
+                practiceIndex++;
+                renderPracticeQuestion();
+            }, 2500);
+        }
+
+        function startMiniGame(gameId) {
+            const container = document.getElementById('gamePlayContainer');
+            container.classList.remove('hidden');
+
+            if (gameId === 1) {
+                container.innerHTML = `
+                    <h4 class="font-bold text-violet-900 text-sm mb-2">Game 1: Grammar Detective 🕵️‍♂️</h4>
+                    <p class="text-xs text-slate-600 mb-3">Temukan kalimat yang BENAR secara tata bahasa:</p>
+                    <div class="space-y-2">
+                        <button onclick="finishGame(true)" class="w-full p-3 bg-white border rounded-xl text-left text-xs hover:bg-violet-50">A. My sister eats rice every morning.</button>
+                        <button onclick="finishGame(false)" class="w-full p-3 bg-white border rounded-xl text-left text-xs hover:bg-violet-50">B. My sister eat rice every morning.</button>
+                        <button onclick="finishGame(false)" class="w-full p-3 bg-white border rounded-xl text-left text-xs hover:bg-violet-50">C. My sister eating rice every morning.</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <h4 class="font-bold text-emerald-900 text-sm mb-2">Game 2: Sentence Builder 🧩</h4>
+                    <p class="text-xs text-slate-600 mb-2">Susun kata berikut: <em>[ football / plays / Budi / every Sunday ]</em></p>
+                    <div class="space-y-2">
+                        <button onclick="finishGame(true)" class="w-full p-3 bg-white border rounded-xl text-left text-xs hover:bg-emerald-50">A. Budi plays football every Sunday.</button>
+                        <button onclick="finishGame(false)" class="w-full p-3 bg-white border rounded-xl text-left text-xs hover:bg-emerald-50">B. Budi play football every Sunday.</button>
+                    </div>
+                `;
+            }
+        }
+
+        function finishGame(isCorrect) {
+            const container = document.getElementById('gamePlayContainer');
+            if (isCorrect) {
+                appProgress.gameDone = true;
+                updateProgressUI();
+                container.innerHTML = `<div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl text-xs text-center font-bold">✨ Luar biasa! Tantangan mini game berhasil diselesaikan!</div>`;
+            } else {
+                container.innerHTML = `<div class="p-4 bg-rose-50 border border-rose-200 text-rose-900 rounded-xl text-xs text-center font-bold">❌ Jawaban kurang tepat, coba lagi ya!</div>`;
+            }
+        }
+
+        function initQuiz() {
+            quizCurrentIndex = 0;
+            quizAnswers = new Array(fullQuizQuestions.length).fill(null);
+            quizQuestionsData = [...fullQuizQuestions]; // or shuffle if desired
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            if (quizCurrentIndex >= quizQuestionsData.length) {
+                renderResultView();
+                return;
+            }
+
+            const item = quizQuestionsData[quizCurrentIndex];
+            document.getElementById('quizCounter').innerText = `Soal ${quizCurrentIndex + 1} dari ${quizQuestionsData.length}`;
+
+            let html = `
+                <div class="space-y-4">
+                    <div class="bg-indigo-50/50 p-4 rounded-2xl border font-semibold text-slate-800 text-sm">
+                        ${quizCurrentIndex + 1}. ${item.q}
+                    </div>
+                    <div class="space-y-2">
+            `;
+
+            item.options.forEach((opt, idx) => {
+                const isSelected = quizAnswers[quizCurrentIndex] === idx;
+                html += `<button onclick="selectQuizOption(${idx})" class="w-full p-3.5 rounded-xl border text-left text-xs font-medium transition ${isSelected ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white hover:bg-indigo-50'}">${opt}</button>`;
+            });
+
+            html += `
+                    </div>
+                    <div class="flex justify-between pt-4 border-t">
+                        <button onclick="navQuiz(-1)" ${quizCurrentIndex === 0 ? 'disabled' : ''} class="px-4 py-2 bg-slate-100 rounded-xl text-xs font-semibold ${quizCurrentIndex === 0 ? 'opacity-50' : ''}">Sebelumnya</button>
+                        <button onclick="navQuiz(1)" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-semibold">${quizCurrentIndex === quizQuestionsData.length - 1 ? 'Selesai & Kirim' : 'Selanjutnya'}</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('quizContainer').innerHTML = html;
+        }
+
+        function selectQuizOption(optIdx) {
+            quizAnswers[quizCurrentIndex] = optIdx;
+            renderQuizQuestion();
+        }
+
+        function navQuiz(direction) {
+            quizCurrentIndex += direction;
+            if (quizCurrentIndex >= quizQuestionsData.length) {
+                renderResultView();
+            } else {
+                renderQuizQuestion();
+            }
+        }
+
+        function renderResultView() {
+            let correctCount = 0;
+            quizAnswers.forEach((ans, idx) => {
+                if (ans === quizQuestionsData[idx].ans) correctCount++;
+            });
+
+            const incorrectCount = quizQuestionsData.length - correctCount;
+            const finalScore = (correctCount / quizQuestionsData.length) * 100;
+
+            let category = "Let's Learn Again!";
+            if (finalScore >= 90) category = "Excellent! 🌟";
+            else if (finalScore >= 80) category = "Very Good! 👏";
+            else if (finalScore >= 70) category = "Good! 👍";
+            else if (finalScore >= 60) category = "Keep Practicing! 💪";
+
+            document.getElementById('resultStudentMeta').innerText = `${currentUser.name} • Kelas ${currentUser.className} • Absen ${currentUser.absen}`;
+            document.getElementById('resCorrect').innerText = correctCount;
+            document.getElementById('resIncorrect').innerText = incorrectCount;
+            document.getElementById('resScore').innerText = finalScore;
+            document.getElementById('resCategory').innerText = category;
+
+            appProgress.quizDone = true;
+            updateProgressUI();
+
+            switchView('viewResult');
+        }
+
+        function submitFinalResultToCloud() {
+            const ref1 = document.getElementById('ref1').value.trim();
+            const ref2 = document.getElementById('ref2').value.trim();
+            
+            let correctCount = 0;
+            quizAnswers.forEach((ans, idx) => {
+                if (ans === quizQuestionsData[idx].ans) correctCount++;
+            });
+            const finalScore = (correctCount / quizQuestionsData.length) * 100;
+
+            const payload = {
+                submissionId: "SUB_" + Date.now() + "_" + currentUser.absen,
+                studentId: currentUser.absen,
+                studentName: currentUser.name,
+                className: currentUser.className,
+                material: APP_CONFIG.topic,
+                totalQuestions: quizQuestionsData.length,
+                correctAnswers: correctCount,
+                incorrectAnswers: quizQuestionsData.length - correctCount,
+                score: finalScore,
+                reflection1: ref1,
+                reflection2: ref2
+            };
+
+            // Jika URL Apps Script belum diisi, berikan simulasi sukses yang ramah
+            if (!APP_CONFIG.googleAppsScriptUrl || APP_CONFIG.googleAppsScriptUrl.includes("MASUKKAN")) {
+                showCustomModal("Simulasi Pengiriman Berhasil!\n\nCatatan: Guru dapat menghubungkan Google Apps Script Web App URL agar nilai otomatis masuk ke Google Sheets spreadsheet 'NILAI INTERAKTIF BAHASA INGGRIS KELAS VIII'.");
+                return;
+            }
+
+            fetch(APP_CONFIG.googleAppsScriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                showCustomModal("Nilai berhasil dikirim dan dicatat ke Google Sheets!");
+            }).catch(err => {
+                showCustomModal("Gagal mengirim ke server. Periksa koneksi internet.");
+            });
+        }
+
+        function openExternalResources() {
+            window.open(APP_CONFIG.googleDocsUrl, '_blank');
+        }
+
+        function showCustomModal(message) {
+            alert(message); // Custom alert fallback compliant with safe sandbox UI
+        }
+    </script>
+</body>
+</html>
